@@ -1,0 +1,63 @@
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="stylesheet" href="../install/ChemDoodleWeb.css" type="text/css">
+<link rel="stylesheet" href="../install/uis/jquery-ui-1.11.4.css" type="text/css">
+
+<script type="text/javascript" src="../install/ChemDoodleWeb.js"></script>
+<script type="text/javascript" src="../install/uis/ChemDoodleWeb-uis.js"></script>
+<script type="text/javascript" src="../../../utils.js"></script>
+<script type="text/javascript" src="../../../javascript/jquery-1.11.3.min.js"></script>
+<title>ChemDoodle Web Component Sketcher (Full Sketcher)</title>
+</head>
+<body>
+<center>
+<br>
+<script>
+  ChemDoodle.ELEMENT['H'].jmolColor = 'black';
+  ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
+  var sketcher = new ChemDoodle.SketcherCanvas('sketcher', 500, 300,{useServices:true});
+  sketcher.styles.atoms_displayTerminalCarbonLabels_2D = true;
+  sketcher.styles.atoms_useJMOLColors = true;
+  sketcher.styles.bonds_clearOverlaps_2D = true;
+  sketcher.styles.shapes_color = '#c10000';
+  sketcher.repaint();
+  let initmol = ChemDoodle.readJSON("{\"m\":[{\"a\":[]}]}");
+
+</script>
+
+<button onclick="let s = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules, sketcher.shapes));
+console.log(s);alert(s);">
+    Cliques donc</button>
+<button onclick="
+                 let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules));
+                 if (json_data !== '{}') {
+                     let molfile = ChemDoodle.writeMOL(sketcher.getMolecule());
+                     let location = '.test1';
+                     ajax_call(molfile, json_data, location, 'http://localhost');
+                 }
+                 else {
+                     sketcher.loadMolecule(initmol['molecules'][0]);
+                     console.log(['molecules'][0]);
+                     let molfile = ChemDoodle.writeMOL(sketcher.getMolecule());
+                     let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules));
+                     let location = '.test1';
+                     ajax_call(molfile, json_data, location, 'http://localhost');
+                 }
+
+">    Nouveau test.
+    </button>
+<button onclick="alert(ChemDoodle.writeRXN(sketcher.getMolecules(), sketcher.shapes)); console.log(JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules)));
+console.log(new ChemDoodle.io.RXNInterpreter().write(sketcher.getMolecules(), sketcher.shapes));">
+Et ici ? </button>   <!--"alert(ChemDoodle.writeMOL(sketcher.getMolecule())-->
+<button onclick="let val = JSON.parse($('.test1').val()); console.log(val);
+                    //alert(val.mol_file);
+                   mol = ChemDoodle.readJSON(val.json);
+                   console.log(mol['molecules'][0]);
+                   sketcher.loadMolecule(mol['molecules'][0]);">
+                    Json to ketcher </button>
+<button onclick="let mol = sketcher.getMolecule();console.log(mol);">
+    Test Json</button>
+</center>
+</body>
+</html>

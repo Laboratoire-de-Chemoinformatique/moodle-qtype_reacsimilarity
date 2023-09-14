@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Ketcher demo</title>
+    <style>
+      body {
+        width: 80%;
+        margin: 0 auto;
+      }
+      button {
+        margin: 10px;
+      }
+      iframe {
+        width: 100%;
+        height: 550px;
+        border: none;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ketcher example</h1>
+
+    <iframe id="ketcher-frame" src="Sketcher_iframe.html" scrolling="no">
+    </iframe>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+      $(document).ready(function () {
+      function get_source() {
+        let buttonname = $(this).prop("name");
+        let textfieldid = 'id_answer_' + buttonname.substr(buttonname.length - 1);
+        return $(`:textarea[id=${textfieldid}]`);
+      }
+
+      $('#set-molfile').click(function () {
+        console.log(ChemDoodle.writeMOL(sketcher.getMolecule()));
+        let box = get_source();
+        box.val(ChemDoodle.writeMOL(sketcher.getMolecule()));
+      });
+
+      $('#load-molfile').click(function () {
+        let box = get_source();
+        let molecule = ChemDoodle.readMOL(box.val);
+        console.log(molecule);
+        sketcher.loadMolecule(molecule);
+      });
+      });
+    </script>
+    <h1>Ketcher interaction example</h1>
+    <div>
+      <textarea row="1" name="answer[0]" id="id_answer_0"></textarea>
+      <button name="insert[0]" id="set-molfile" type="button">
+          Insert given molecule as answer
+      </button>
+      <button name="insert[0]" id="load-molfile" type="button">
+         View molecule in the editor
+      </button>
+
+      <textarea row="1" name="answer[1]" id="id_answer_1"></textarea>
+      <button name="insert[1]" id="set-molfile" type="button">
+        Insert given molecule as answer
+      </button>
+      <button name="insert[1]" id="load-molfile" type="button">
+        View molecule in the editor
+      </button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+/*
+ * File style.css
+ * Contains the styling for the reacsimilarity plugin.
+ *
+ */
+.que.reacsimilarity iframe {
+    width: 50%;
+    height: 550px;
+    border: none;
+    overflow: hidden;
+    position: center;
+}
+
+.que.reacsimilarity label {
+    display: inline-flex;
+}
+
+.que.reacsimilarity #fitem_id_answersinstruct + div {
+    text-align: center;
+}

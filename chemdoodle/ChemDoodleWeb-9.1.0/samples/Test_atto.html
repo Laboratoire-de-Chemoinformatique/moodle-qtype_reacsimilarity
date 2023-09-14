@@ -1,0 +1,98 @@
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="stylesheet" href="ChemDoodleWeb.css" type="text/css">
+<link rel="stylesheet" href="../../../Chemdoodle/uis/jquery-ui-1.11.4.css" type="text/css">
+
+<script type="text/javascript" src="../../../javascript/jquery-1.11.3.min.js">  </script>
+<script type="text/javascript" src="../../../Chemdoodle/ChemDoodleWeb-simple.js"></script>
+<script type="text/javascript" src="ChemDoodleWeb-uis-unpacked.js"></script>
+<script type="text/javascript" src="utils_2.js"></script>
+<title>ChemDoodle Web Component Sketcher (Single Molecule Sketcher)</title>
+</head>
+<body>
+<center>
+<br>
+
+<label for="width">Width:</label>
+<input type="number" id="width" name="width" max="500" min="10" step="5"><br><br>
+
+<label for="height">Height:</label>
+<input type="number" id="height" name="height" max="500" min="10" step="5"><br><br>
+
+<button onclick="
+
+let input_width = document.getElementById('width').valueAsNumber;
+let input_height = document.getElementById('height').valueAsNumber;
+let width;
+let height;
+
+if(input_width > 0 ) {
+    width = input_width;
+} else {
+    width = 150;
+}
+
+if(input_height > 0 ) {
+    console.log('inif');
+    height = input_height;
+} else {
+    console.log('inelse');
+    height=150;
+}
+sketcher_viewer.resize(width, height);
+
+"> Resize canvas</button>
+    <br><br>
+
+<canvas id="sketcher"></canvas>
+<script>
+  ChemDoodle.ELEMENT['H'].jmolColor = 'black';
+  ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
+  const sketcher = new ChemDoodle.SketcherCanvas('sketcher', 400, 300,{useServices:false,});//  requireStartingAtom: false}); // oneMolecule:true,
+  let initmol = ChemDoodle.readJSON("{\"m\":[{\"a\":[]}]}");
+  sketcher.styles.atoms_displayTerminalCarbonLabels_2D = true;
+  sketcher.styles.atoms_useJMOLColors = true;
+  sketcher.styles.bonds_clearOverlaps_2D = true;
+  sketcher.repaint();
+
+</script>
+
+
+<button onclick="
+
+console.log(document.getElementById(sketcher_viewer.id).toDataURL('image/svg'));
+let test_sketcher = document.getElementById(sketcher_viewer.id);
+console.log(test_sketcher);
+console.log(sketcher_viewer);
+">
+    Test png
+</button>
+    <br><br>
+<canvas id = sketcher-viewer></canvas>
+
+</center>
+
+<script>
+    //console.log(test);
+    const sketcher_viewer = new ChemDoodle.ViewerCanvas('sketcher-viewer', 100, 100);
+    sketcher_viewer.emptyMessage = 'No data loaded';
+    sketcher.oldFunc = sketcher.checksOnAction;
+
+    sketcher.checksOnAction = function(force){
+        this.oldFunc(force);
+        //sketcher.repaint();
+        let mols = sketcher.molecules;
+        let forms = sketcher.shapes;
+        sketcher_viewer.loadContent(mols, forms);
+        sketcher.center();
+        for ( let i = 0, ii = this.molecules.length; i < ii; i++) {
+            this.molecules[i].check();
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

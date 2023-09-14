@@ -1,0 +1,42 @@
+NoName
+LPISIDA14-9-23111NANoName
+
+  6  6  0  0  0  0             999 V2000
+    0.0000    1.0000    0.0000 C    0  0  0  0  0  0  0  0  0  1  0  0
+    0.8660    0.5000    0.0000 C    0  0  0  0  0  0  0  0  0  5  0  0
+    0.8660   -0.5000    0.0000 C    0  0  0  0  0  0  0  0  0  6  0  0
+    0.0000   -1.0000    0.0000 C    0  0  0  0  0  0  0  0  0  4  0  0
+   -0.8660   -0.5000    0.0000 C    0  0  0  0  0  0  0  0  0  3  0  0
+   -0.8660    0.5000    0.0000 C    0  0  0  0  0  0  0  0  0  2  0  0
+  1  2  8  0  0  0  0
+  6  1  8  0  0  0  0
+  2  3  8  0  0  0  0
+  3  4  8  0  0  0  0
+  4  5  8  0  0  0  0
+  5  6  8  0  0  0  0
+M  STY  6   1 DAT   2 DAT   3 DAT   4 DAT   5 DAT   6 DAT
+M  SAL   1  2   1   2
+M  SDT   1 dynbond
+M  SDD   1     0.4330    0.7500    DAU   ALL  0       0
+M  SED   1 0>1
+M  SAL   2  2   6   1
+M  SDT   2 dynbond
+M  SDD   2    -0.4330    0.7500    DAU   ALL  0       0
+M  SED   2 2>1
+M  SAL   3  2   2   3
+M  SDT   3 dynbond
+M  SDD   3     0.8660    0.0000    DAU   ALL  0       0
+M  SED   3 2>1
+M  SAL   4  2   3   4
+M  SDT   4 dynbond
+M  SDD   4     0.4330   -0.7500    DAU   ALL  0       0
+M  SED   4 0>1
+M  SAL   5  2   4   5
+M  SDT   5 dynbond
+M  SDD   5    -0.4330   -0.7500    DAU   ALL  0       0
+M  SED   5 2>1
+M  SAL   6  2   5   6
+M  SDT   6 dynbond
+M  SDD   6    -0.8660    0.0000    DAU   ALL  0       0
+M  SED   6 1>2
+M  END

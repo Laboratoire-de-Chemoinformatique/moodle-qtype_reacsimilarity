@@ -1,0 +1,138 @@
+<html lang="en-US">
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="stylesheet" href="ChemDoodleWeb.css" type="text/css">
+<link rel="stylesheet" href="../../../Chemdoodle/uis/jquery-ui-1.11.4.css" type="text/css">
+
+<script type="text/javascript" src="../../../javascript/jquery-1.11.3.min.js">  </script>
+<script type="text/javascript" src="../../../Chemdoodle/ChemDoodleWeb-simple.js"></script>
+<script type="text/javascript" src="ChemDoodleWeb-uis-unpacked.js"></script>
+<script type="text/javascript" src="utils_2.js"></script>
+<title>ChemDoodle Web Component Sketcher (Single Molecule Sketcher)</title>
+</head>
+<body>
+<center>
+<br>
+<canvas id="sketcher"></canvas>
+<script>
+  ChemDoodle.ELEMENT['H'].jmolColor = 'black';
+  ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
+  const sketcher = new ChemDoodle.SketcherCanvas('sketcher', 400, 300,{useServices:false,});//  requireStartingAtom: false}); // oneMolecule:true,
+  let initmol = ChemDoodle.readJSON("{\"m\":[{\"a\":[]}]}");
+  sketcher.styles.atoms_displayTerminalCarbonLabels_2D = true;
+  sketcher.styles.atoms_useJMOLColors = true;
+  sketcher.styles.bonds_clearOverlaps_2D = true;
+  sketcher.repaint();
+
+</script>
+<button onclick="let s = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules, sketcher.shapes));
+console.log(s);alert(s);">
+    Cliques donc</button>
+<button onclick="
+                 let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules));
+                 if (json_data !== '{}') {
+                     let molfile = ChemDoodle.writeMOL(sketcher.getMolecule());
+                     let location = '.test1';
+                     ajax_call(molfile, json_data, location, 'http://localhost');
+                 }
+                 else {
+                     sketcher.loadMolecule(initmol['molecules'][0]);
+                     console.log(initmol['molecules'][0]);
+                     let molfile = ChemDoodle.writeMOL(sketcher.getMolecule());
+                     let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules));
+                     let location = '.test1';
+                     ajax_call(molfile, json_data, location, 'http://localhost');
+                 }
+
+">    Nouveau test.
+    </button>
+<button onclick="alert(ChemDoodle.writeRXN(sketcher.getMolecules(), sketcher.shapes)); console.log(JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules)));">Et ici ? </button>   <!--"alert(ChemDoodle.writeMOL(sketcher.getMolecule())-->
+<button onclick="let val = JSON.parse($('.test1').val()); console.log(val);
+                    //alert(val.mol_file);
+                   mol = ChemDoodle.readJSON(val.json);
+                   console.log(mol['molecules'][0]);
+                   sketcher.loadMolecule(mol['molecules'][0]);">
+                    Json to ketcher </button>
+<button onclick="let mol = sketcher.getMolecule();console.log(mol);">
+    Test Json</button>
+
+<button onclick="
+let mol = sketcher.getMolecule();
+let mols = sketcher.getMolecules();
+let s = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules, sketcher.shapes));
+console.log(ChemDoodle.writeRXN(mols, sketcher.shapes));
+console.log(sketcher.shapes);
+
+//ChemDoodle.io.png.string(mycanvas);
+//ChemDoodle.io.png.open(sketcher);
+//ChemDoodle.io.png.string(sketcher.id);
+//sketcher.center();
+//sketcher.repaint();
+let forms = sketcher.shapes;
+console.log(document.getElementById(sketcher_viewer.id).toDataURL('image/svg'));
+console.log(ChemDoodle.io.png.string(sketcher));
+/**sketcher_viewer.loadContent(mols, forms);
+sketcher.center();
+sketcher.repaint();
+console.log(mols);
+console.log(JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules, sketcher.shapes)));
+console.log(JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher_viewer.molecules, sketcher_viewer.shapes)));
+*/">Test png</button>
+<button>
+    Modify canvas to square
+</button>
+
+<button onclick="
+    canvas = document.getElementById(sketcher_viewer.id);
+    //console.log(canvas);
+    console.log(canvas.width);
+    let oldCanvas = canvas.toDataURL('image/png');
+    let img = new Image();
+    img.src = oldCanvas;
+    canvas.width = 400;
+    canvas.style.width = '400px';
+    let mols = sketcher.molecules;
+    let forms = sketcher.shapes;
+    //sketcher_viewer.loadContent(mols, forms);
+    sketcher_viewer.drawImage(img, 0, 0);
+    sketcher_viewer.center();
+    sketcher_viewer.repaint();
+    console.log(canvas.width);
+
+
+
+">
+    Modify canvas to rectangle
+</button>
+</center>
+<div>
+    <textarea class="test1" autocomplete="off">
+
+    </textarea>
+</div>
+
+<script>
+    const sketcher_viewer = new ChemDoodle.ViewerCanvas('sketcher-viewer', 100, 100);
+    sketcher_viewer.emptyMessage = 'No data loaded';
+    sketcher.oldFunc = sketcher.checksOnAction;
+
+    sketcher.checksOnAction = function(force){
+        this.oldFunc(force);
+        //sketcher.repaint();
+        let mols = sketcher.molecules;
+        let forms = sketcher.shapes;
+        sketcher_viewer.loadContent(mols, forms);
+        sketcher.center();
+        for ( let i = 0, ii = this.molecules.length; i < ii; i++) {
+            this.molecules[i].check();
+        }
+    }
+    //sketcher.repaint();
+    //sketcher.center();
+
+
+</script>
+
+</body>
+
+</html>
