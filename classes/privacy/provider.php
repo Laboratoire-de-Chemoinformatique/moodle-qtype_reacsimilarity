@@ -30,8 +30,6 @@
 
 namespace qtype_reacsimilarity\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for qtype_reacsimilarity implementing null_provider.
  * @package qtype

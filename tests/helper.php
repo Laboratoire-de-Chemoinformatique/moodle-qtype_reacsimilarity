@@ -73,7 +73,8 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $answer .= '.com\\n  4  3  0  0  0  0            999 V2000\\n   -0.4330    0.5000    0.0000 C   0  0  0  0  0  0  0';
         $answer .= '  0  0  2  0  0\\n    0.4330    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  1  0  0\\n   -0.4330   -0.5000';
         $answer .= '    0.0000 C   0  0  0  0  0  0  0  0  0  3  0  0\\n    0.4330   -1.0000    0.0000 C   0  0  0  0  0  0  0  0';
-        $answer .= '  0  4  0  0\\n  1  2  2  0  0  0  0\\n  1  3  1  0  0  0  0\\n  3  4  2  0  0  0  0\\nM  END\\n$MOL\\nMolecule';
+        $answer .= '  0  4  0  0\\n  1  2  2  0  0  0  0\\n  1  3  1  0  0  0  0\\n  3  4  2  0  0  0  0\\nM  END\\n$MOL\\n';
+        $answer .= 'Molecule';
         $answer .= ' from ChemDoodle Web Components\\n\\nhttp://www.ichemlabs.com\\n  2  1  0  0  0  0            999 V2000\\n    ';
         $answer .= '0.0000    0.5000    0.0000 C   0  0  0  0  0  0  0  0  0  5  0  0\\n    0.0000   -0.5000    0.0000 C   0  0  ';
         $answer .= '0  0  0  0  0  0  0  6  0  0\\n  1  2  2  0  0  0  0\\nM  END\\n$MOL\\nMolecule from ChemDoodle Web Components';
@@ -91,7 +92,7 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $sa->qtype = question_bank::get_qtype('reacsimilarity');
         return $sa;
     }
-    
+
     public function get_reacsimilarity_question_data_dielsalder() {
         $qdata = new stdClass();
         test_question_maker::initialise_question_data($qdata);
@@ -125,7 +126,8 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $answer .= '.com\\n  4  3  0  0  0  0            999 V2000\\n   -0.4330    0.5000    0.0000 C   0  0  0  0  0  0  0';
         $answer .= '  0  0  2  0  0\\n    0.4330    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  1  0  0\\n   -0.4330   -0.5000';
         $answer .= '    0.0000 C   0  0  0  0  0  0  0  0  0  3  0  0\\n    0.4330   -1.0000    0.0000 C   0  0  0  0  0  0  0  0';
-        $answer .= '  0  4  0  0\\n  1  2  2  0  0  0  0\\n  1  3  1  0  0  0  0\\n  3  4  2  0  0  0  0\\nM  END\\n$MOL\\nMolecule';
+        $answer .= '  0  4  0  0\\n  1  2  2  0  0  0  0\\n  1  3  1  0  0  0  0\\n  3  4  2  0  0  0  0\\nM  END\\n$MOL\\n';
+        $answer .= 'Molecule';
         $answer .= ' from ChemDoodle Web Components\\n\\nhttp://www.ichemlabs.com\\n  2  1  0  0  0  0            999 V2000\\n    ';
         $answer .= '0.0000    0.5000    0.0000 C   0  0  0  0  0  0  0  0  0  5  0  0\\n    0.0000   -0.5000    0.0000 C   0  0  ';
         $answer .= '0  0  0  0  0  0  0  6  0  0\\n  1  2  2  0  0  0  0\\nM  END\\n$MOL\\nMolecule from ChemDoodle Web Components';
@@ -177,7 +179,8 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $answer .= '.com\\n  4  3  0  0  0  0            999 V2000\\n   -0.4330    0.5000    0.0000 C   0  0  0  0  0  0  0';
         $answer .= '  0  0  2  0  0\\n    0.4330    1.0000    0.0000 C   0  0  0  0  0  0  0  0  0  1  0  0\\n   -0.4330   -0.5000';
         $answer .= '    0.0000 C   0  0  0  0  0  0  0  0  0  3  0  0\\n    0.4330   -1.0000    0.0000 C   0  0  0  0  0  0  0  0';
-        $answer .= '  0  4  0  0\\n  1  2  2  0  0  0  0\\n  1  3  1  0  0  0  0\\n  3  4  2  0  0  0  0\\nM  END\\n$MOL\\nMolecule';
+        $answer .= '  0  4  0  0\\n  1  2  2  0  0  0  0\\n  1  3  1  0  0  0  0\\n  3  4  2  0  0  0  0\\nM  END\\n$MOL\\n';
+        $answer .= 'Molecule';
         $answer .= ' from ChemDoodle Web Components\\n\\nhttp://www.ichemlabs.com\\n  2  1  0  0  0  0            999 V2000\\n    ';
         $answer .= '0.0000    0.5000    0.0000 C   0  0  0  0  0  0  0  0  0  5  0  0\\n    0.0000   -0.5000    0.0000 C   0  0  ';
         $answer .= '0  0  0  0  0  0  0  6  0  0\\n  1  2  2  0  0  0  0\\nM  END\\n$MOL\\nMolecule from ChemDoodle Web Components';
@@ -190,7 +193,8 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $answer .= 'END\\n"}';
         $form->answer = array($answer);
         $form->fraction = array('1.0');
-        $form->feedback = array(array('text' => 'Think about the reaction arrows to help you with atom mapping.', 'format' => FORMAT_HTML));
+        $form->feedback = array(array('text' => 'Think about the reaction arrows to help you with atom mapping.',
+                'format' => FORMAT_HTML));
 
         return $form;
     }
