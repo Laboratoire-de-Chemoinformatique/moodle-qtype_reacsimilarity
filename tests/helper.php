@@ -91,35 +91,7 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $sa->qtype = question_bank::get_qtype('reacsimilarity');
         return $sa;
     }
-
-    public function make_reacsimilarity_question_s1aminoethanol() {
-        question_bank::load_question_definition_classes('reacsimilarity');
-        $sa = new qtype_reacsimilarity_question();
-        test_question_maker::initialise_a_question($sa);
-        $sa->name = 'reacsimilarity question';
-        $sa->questiontext = 'Draw the lewis structure of a molecule of ethanol.';
-        $sa->stereobool = 1;
-        $sa->threshold = 0;
-        $sa->alpha = 1;
-        $sa->scaffold = '';
-        $sa->generalfeedback = 'Generalfeedback: ethanol should not be confused with methanol.';
-        $answer = '{"json":"{\"m\":[{\"a\":[{\"x\":221.75,\"y\":156,\"i\":\"a0\",\"l\":\"N\"},{\"x\":239.07050807568876,\"y\":146,';
-        $answer .= '\"i\":\"a1\"},{\"x\":256.3910161513775,\"y\":156,\"i\":\"a2\"},{\"x\":239.07050807568876,\"y\":126,\"i\":\"a3';
-        $answer .= '\",\"l\":\"O\"},{\"x\":259.07050807568874,\"y\":146,\"i\":\"a4\",\"l\":\"H\"}],\"b\":[{\"b\":0,\"e\":1,\"i\":';
-        $answer .= '\"b0\"},{\"b\":1,\"e\":2,\"i\":\"b1\",\"s\":\"protruding\"},{\"b\":1,\"e\":3,\"i\":\"b2\"},{\"b\":1,\"e\":4,';
-        $answer .= '\"i\":\"b3\",\"s\":\"recessed\"}]}]}","mol_file":"Molecule from ChemDoodle Web Components\n\nhttp://www.icheml';
-        $answer .= 'abs.com\n  5  4  0  0  0  0            999 V2000\n   -0.9330   -0.7500    0.0000 N   0  0  0  0  0  0';
-        $answer .= '\n   -0.0670   -0.2500    0.0000 C   0  0  0  0  0  0\n    0.7990   -0.7500    0.0000 C   0  0  0  0  0  0';
-        $answer .= '\n   -0.0670    0.7500    0.0000 O   0  0  0  0  0  0\n    0.9330   -0.2500    0.0000 H   0  0  0  0  0  0';
-        $answer .= '\n  1  2  1  0  0  0  0\n  2  3  1  1  0  0  0\n  2  4  1  0  0  0  0\n  2  5  1  6  0  0  0\nM  END"}';
-        $sa->answers = array(
-                1 => new question_answer(1, $answer, 1.0, 'Watchout for the stereochemistry !',
-                        1)
-        );
-        $sa->qtype = question_bank::get_qtype('reacsimilarity');
-        return $sa;
-    }
-
+    
     public function get_reacsimilarity_question_data_dielsalder() {
         $qdata = new stdClass();
         test_question_maker::initialise_question_data($qdata);
