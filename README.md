@@ -12,7 +12,7 @@ You can move the location of the Api_server directory, but you shoudn't move the
 
 ### Which executable to use
 Under Linux please use **rest_api_cgr** (compiled with Lazarus v2.0.6, FPC 3.0.4, Ubuntu 20.04.6 LTS).
-Under Windows, please use **rest_api_cgr.exe** (compiled with Lazarus).
+Under Windows, please use **rest_api_cgr.exe** (compiled with Lazarus v2.2.4, FPC 3.2.2, Windows 11).
 Make sure that both the rest_api_cgr, and the inchi-1 executable are in rwx rights.
 
 ### Parameters modification
