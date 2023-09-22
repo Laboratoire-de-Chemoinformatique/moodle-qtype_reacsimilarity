@@ -27,8 +27,6 @@
 
 namespace qtype_reacsimilarity\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Mobile output class for reacsimilarity question type
  *
