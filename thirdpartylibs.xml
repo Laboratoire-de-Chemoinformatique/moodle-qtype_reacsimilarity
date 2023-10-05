@@ -22,7 +22,14 @@
         <licenseversion>1.0</licenseversion>
     </library>
     <library>
-        <location>Api_server/rest_api_cgr ; Api_server/rest_api_cgr.exe</location>
+        <location>Api_server/rest_api_cgr</location>
+        <name>Correction Rest Server</name>
+        <version>1.0</version>
+        <license>GNU GPL LPGL</license>
+        <licenseversion>3.0+</licenseversion>*
+    </library>
+    <library>
+        <location>Api_server/rest_api_cgr.exe</location>
         <name>Correction Rest Server</name>
         <version>1.0</version>
         <license>GNU GPL LPGL</license>
