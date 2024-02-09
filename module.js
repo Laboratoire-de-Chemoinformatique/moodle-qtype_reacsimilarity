@@ -70,7 +70,7 @@ M.qtype_reacsimilarity={
                 if (json_data !== '{\"m\":[{\"a\":[]}]}') {
                     let reac = ChemDoodle.writeRXN(window[name].getMolecules(), window[name].shapes);
                     //if (reac == "") {reac = ChemDoodle.writeMOL(window[name].getMolecule())};
-                    ajax_call(reac, json_data, location_isida, dirr);
+                    generateOutputChemDoodle(reac, json_data, location_isida);
                 }
                 return true;
             });
@@ -132,7 +132,7 @@ M.qtype_reacsimilarity={
                     console.log(json_data);
                     console.log(ChemDoodle.readJSON(json_data));
                     let box = get_source(parent);
-                    ajax_call(molfile, json_data, box, dirr);
+                    generateOutputChemDoodle(molfile, json_data, box);
                     if (box.val().length >= 1) {$('[classo = mol_empty]').hide();$('[classo = needreac]').hide();}
                 } else {
                     $('[classo = needreac]').toggle();
@@ -276,7 +276,7 @@ M.qtype_reacsimilarity={
                     var molscaf = ChemDoodle.writeMOL(window[nameS].getMolecule());
                 }
                 if (molscaf !== 'Molecule from ChemDoodle Web Components\n\nhttp://www.ichemlabs.com\n  1  0  0  0  0  0            999 V2000\n    0.0000    0.0000    0.0000 C   0  0  0  0  0  0\nM  END') {
-                    ajax_call(molscaf, json_data, scaffoldarea, dirr);
+                    generateOutputChemDoodle(molscaf, json_data, scaffoldarea);
                 }
             } else {
                 scaffoldarea.val('');
@@ -285,3 +285,13 @@ M.qtype_reacsimilarity={
         });
     },
     };
+
+function generateOutputChemDoodle (molfile, json_data, location_isida){
+    require(['qtype_reacsimilarity/api_helper'], function (app) {
+        app.callApi(molfile, json_data).then(async data => {
+            console.log(JSON.stringify(data));
+            console.log(data);
+            $(location_isida).val(JSON.stringify(data));
+        });
+    });
+}
