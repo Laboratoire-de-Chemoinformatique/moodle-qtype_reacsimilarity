@@ -116,6 +116,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
 
     protected function require_js() {
         global $PAGE, $CFG;
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
         $jsmodule = array(
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
@@ -141,10 +142,12 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
                 null,
                 true,
                 $jsmodule);
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
     }
 
     protected function require_js_scaffold() {
         global $PAGE, $CFG;
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
         $jsmodule = array(
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
