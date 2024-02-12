@@ -37,7 +37,7 @@ class qtype_reacsimilarity_external extends external_api {
                     'json_data' => new external_value(PARAM_TEXT,
                         'json_data containing info about the lone pairs and radicals and atom mapping',
                         VALUE_REQUIRED),
-                    'sesskey' => new external_value(PARAM_ALPHANUMEXT, 'sesskey', VALUE_REQUIRED)
+                    'sesskey' => new external_value(PARAM_ALPHANUMEXT, 'sesskey', VALUE_REQUIRED),
                 )
         );
     }
@@ -156,15 +156,16 @@ class qtype_reacsimilarity_external extends external_api {
         self::validate_parameters(self::modify_rxnfile_parameters(),
                     array('molfile' => $molfile, 'json_data' => $jsondata, 'sesskey' => $sesskey));
 
+        // We look for the number of lone pairs and radicals in the initial json.
+        $lines = explode("\n", $molfile);
+        $decoded = json_decode($jsondata ?? '', true);
+
+        // Redefine str_contains for php 7.4
         if (!function_exists('str_contains')) {
             function str_contains($haystack, $needle) {
                 return $needle !== '' && mb_strpos($haystack, $needle) !== false;
             }
         }
-        // We look for the number of lone pairs and radicals in the initial json.
-        $lines = explode("\n", $molfile);
-        $decoded = json_decode($jsondata ?? '', true);
-
         if (str_contains($lines[0], '$RXN')) {
             // If reaction, then we look for the number of molecules in it.
             $headerrxn = array_slice($lines, 0, 5);
@@ -181,7 +182,7 @@ class qtype_reacsimilarity_external extends external_api {
                 $molarray = array();
                 $l = 0;
 
-                while(!(str_contains($lines[$j], 'M  END'))) {
+                while (!(str_contains($lines[$j], 'M  END'))) {
                     if ($l == 0) {
                         $l++;
                     } else {

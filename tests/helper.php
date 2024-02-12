@@ -85,10 +85,11 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $answer .= '-0.8660    0.5000    0.0000 C   0  0  0  0  0  0  0  0  0  2  0  0\\n  1  2  1  0  0  0  0\\n  2  3  1  0  0';
         $answer .= '  0  0\\n  3  4  1  0  0  0  0\\n  4  5  1  0  0  0  0\\n  5  6  2  0  0  0  0\\n  6  1  1  0  0  0  0\\nM  ';
         $answer .= 'END\\n"}';
-        $sa->answers = array(
+        $sa->answers =
+            array(
                1 => new question_answer(1, $answer, 1.0,
-                       'Think about the reaction arrows to help you with atom mapping.', 1)
-        );
+                       'Think about the reaction arrows to help you with atom mapping.', 1),
+            );
         $sa->qtype = question_bank::get_qtype('reacsimilarity');
         return $sa;
     }
@@ -138,10 +139,11 @@ class qtype_reacsimilarity_test_helper extends question_test_helper {
         $answer .= '-0.8660    0.5000    0.0000 C   0  0  0  0  0  0  0  0  0  2  0  0\\n  1  2  1  0  0  0  0\\n  2  3  1  0  0';
         $answer .= '  0  0\\n  3  4  1  0  0  0  0\\n  4  5  1  0  0  0  0\\n  5  6  2  0  0  0  0\\n  6  1  1  0  0  0  0\\nM  ';
         $answer .= 'END\\n"}';
-        $qdata->options->answers = array(
+        $qdata->options->answers =
+            array(
                 1 => new question_answer(1, $answer, 1.0,
-                        'Think about the reaction arrows to help you with atom mapping.', 1)
-        );
+                        'Think about the reaction arrows to help you with atom mapping.', 1),
+            );
         return $qdata;
     }
 

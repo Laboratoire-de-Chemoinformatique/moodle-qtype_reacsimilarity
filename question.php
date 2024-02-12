@@ -183,7 +183,7 @@ class qtype_reacsimilarity_question extends question_graded_automatically {
         }
         $header = [
                 'typ' => 'JWT',
-                'alg' => 'HS256'
+                'alg' => 'HS256',
         ];
 
         // Encoded in base64.
@@ -274,7 +274,7 @@ class qtype_reacsimilarity_question extends question_graded_automatically {
         $isidaurl = get_config('qtype_reacsimilarity', 'isidaurl');
         $option = array(
                 'returntransfer' => true,
-                'httpheader' => array("Authorization: Bearer " . $token)
+                'httpheader' => array("Authorization: Bearer " . $token),
         );
         $result = $curl->post($isidaurl . "/isidacgr", $jsondata, $option);
         if ($curl->error || json_decode($result ?? '', true) == null ) {

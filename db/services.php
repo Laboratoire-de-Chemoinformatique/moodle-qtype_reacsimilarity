@@ -35,6 +35,6 @@ $functions = array(
                 'description' => 'Modify a RXNfile using the given json',
                 'type'        => 'read',
                 'ajax' => true,
-                'loginrequired' => true
-        )
+                'loginrequired' => true,
+        ),
 );

@@ -127,7 +127,7 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
                 'requires' => array(),
-                'strings' => array()
+                'strings' => array(),
         );
 
         $name = $toreplaceid . '_editor';
@@ -204,7 +204,7 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
                 'requires' => array(),
-                'strings' => array()
+                'strings' => array(),
         );
 
         $name = $toreplaceid . '_editor';

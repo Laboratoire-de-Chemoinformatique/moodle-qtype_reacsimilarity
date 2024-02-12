@@ -48,11 +48,12 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
         $PAGE->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb-min.js", true);
         $PAGE->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/ChemDoodleWeb-uis-min.js",
                 true);
+
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
 
         $menustereo = array(
                 get_string('caseno', 'qtype_reacsimilarity'),
-                get_string('caseyes', 'qtype_reacsimilarity')
+                get_string('caseyes', 'qtype_reacsimilarity'),
         );
 
         $menuthreshold = question_bank::fraction_options();
@@ -121,7 +122,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
                 'requires' => array(),
-                'strings' => array()
+                'strings' => array(),
         );
         $directory = json_encode(array("dirrMoodle" => $CFG->wwwroot), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $PAGE->requires->js_init_call('M.qtype_reacsimilarity.insert_form',
@@ -136,7 +137,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
                 'requires' => array(),
-                'strings' => array()
+                'strings' => array(),
         );
         $PAGE->requires->js_init_call('M.qtype_reacsimilarity.insert_form_preview',
                 null,
@@ -152,7 +153,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
                 'name'     => 'qtype_reacsimilarity',
                 'fullpath' => '/question/type/reacsimilarity/module.js',
                 'requires' => array(),
-                'strings' => array()
+                'strings' => array(),
         );
         $directory = json_encode(array("dirrMoodle" => $CFG->wwwroot), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $PAGE->requires->js_init_call('M.qtype_reacsimilarity.insert_scaffold',

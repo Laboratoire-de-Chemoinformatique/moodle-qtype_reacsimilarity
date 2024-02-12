@@ -55,18 +55,21 @@ class backup_qtype_reacsimilarity_plugin extends backup_qtype_extrafields_plugin
         $this->add_question_question_answers($pluginwrapper);
 
         // Now create the qtype own structures.
-        $reacsimilarity = new backup_nested_element('reacsimilarity', array('id'), array(
+        $reacsimilarity = new backup_nested_element('reacsimilarity', ['id'],
+            [
                 'stereobool',
                 'threshold',
                 'alpha',
-                'scaffold'));
+                'scaffold',
+                ]
+        );
 
         // Now the own qtype tree.
         $pluginwrapper->add_child($reacsimilarity);
 
         // Set source to populate the data.
         $reacsimilarity->set_source_table('question_reacsimilarity',
-                array('questionid' => backup::VAR_PARENTID));
+            ['questionid' => backup::VAR_PARENTID]);
 
         // Don't need to annotate ids nor files.
 
