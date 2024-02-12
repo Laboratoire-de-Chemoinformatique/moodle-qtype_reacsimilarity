@@ -30,46 +30,38 @@ M.qtype_reacsimilarity={
         let dirr = JSON.parse(dirroot).dirrMoodle;
         let location_isida = '#' + inputname;
 
-        function style () {
-        window[name].styles.atoms_useJMOLColors = true;
-        window[name].styles.bonds_clearOverlaps_2D = true;
-        ChemDoodle.ELEMENT['H'].jmolColor = 'black';
-        ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
+        let sketcher = document.querySelector('#'+name);
+        function style (sketcher) {
+            sketcher.styles.atoms_useJMOLColors = true;
+            sketcher.styles.bonds_clearOverlaps_2D = true;
+            ChemDoodle.ELEMENT['H'].jmolColor = 'black';
+            ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
         }
 
         if (readonly){
-            window[name] = new ChemDoodle.ViewerCanvas(toreplaceid, 400, 300);
-            window[name].emptyMessage = 'No data loaded';
-            style();
+            sketcher = new ChemDoodle.ViewerCanvas(toreplaceid, 400, 300);
+            sketcher.emptyMessage = 'No data loaded';
+            style(sketcher);
         }
 
         else{
-            window[name] = new ChemDoodle.SketcherCanvas(toreplaceid, 550, 300, {useServices:false, oneMolecule:false});
-            style();
+            sketcher = new ChemDoodle.SketcherCanvas(toreplaceid, 550, 300, {useServices:false, oneMolecule:false});
+            style(sketcher);
 
             let half_bond = document.getElementById(toreplaceid + '_button_bond_half_label');
             half_bond.remove(); // Removing the "halfbond".
 
             let initmol = ChemDoodle.readJSON("{\"m\":[{\"a\":[]}]}");
-            let meth = ChemDoodle.readJSON("{\"m\":[{\"a\":[{\"x\":236.75,\"y\":134,\"i\":\"a0\"}]}]}");
-
-            window[name].loadMolecule(initmol['molecules'][0]);
-            window[name].click = initcanvas;
-
-            function initcanvas(){
-                let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(window[name].molecules, window[name].shapes));
-                if (json_data === '{\"m\":[{\"a\":[]}]}') {
-                    window[name].loadMolecule(meth['molecules'][0]);
-                }
-            }
+            sketcher.doChecks = true;
+            sketcher.loadMolecule(initmol['molecules'][0]);
 
             const moodleform = document.getElementById("responseform");
             moodleform.addEventListener("submit", function (event) {
-                let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(window[name].molecules, window[name].shapes));
+                let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules, sketcher.shapes));
                 // We check if there is an answer, if not, we send an empty json, which can be loaded into the canvas.
                 if (json_data !== '{\"m\":[{\"a\":[]}]}') {
-                    let reac = ChemDoodle.writeRXN(window[name].getMolecules(), window[name].shapes);
-                    //if (reac == "") {reac = ChemDoodle.writeMOL(window[name].getMolecule())};
+                    let reac = ChemDoodle.writeRXN(sketcher.getMolecules(), sketcher.shapes);
+                    //if (reac == "") {reac = ChemDoodle.writeMOL(sketcher.getMolecule())};
                     generateOutputChemDoodle(reac, json_data, location_isida);
                 }
                 return true;
@@ -77,26 +69,26 @@ M.qtype_reacsimilarity={
         }
 
         let lastmol = document.getElementById(inputname).value;
-        window[name].doChecks = true;
+        sketcher.doChecks = true;
         if(lastmol.length > 0) {
-            window[name].doChecks = true;
+            sketcher.doChecks = true;
             let cmcmol = ChemDoodle.readJSON(JSON.parse(lastmol).json);
-            window[name].loadContent(cmcmol['molecules'], cmcmol['shapes']);
-            window[name].repaint();
+            sketcher.loadContent(cmcmol['molecules'], cmcmol['shapes']);
+            sketcher.repaint();
         }
         else if (scaffold !== '' && scaffold) {
-            window[name].doChecks = true;
+            sketcher.doChecks = true;
             let cmcmol = JSON.parse(scaffold);
             let data = ChemDoodle.readJSON(cmcmol.json);
             if (data.shapes.length !== 0) {
-                window[name].loadContent(data['molecules'], data['shapes']);
+                sketcher.loadContent(data['molecules'], data['shapes']);
             } else {
-                window[name].loadMolecule(data['molecules'][0]);
+                sketcher.loadMolecule(data['molecules'][0]);
             }
         }
         else { // Case ketcher not instantiated, we use the empty "mol".
             let initmol = ChemDoodle.readJSON("{\"m\":[{\"a\":[]}]}");
-            window[name].loadMolecule(initmol['molecules'][0]);
+            sketcher.loadMolecule(initmol['molecules'][0]);
         }
         $(function(){
             if($('.ChemDoodleWebComponent').length){
@@ -184,10 +176,11 @@ M.qtype_reacsimilarity={
             id += i;
             sketcherlist[i].id = id;
 
-            window[id] = new ChemDoodle.ViewerCanvas(id, 250, 125);
-            window[id].emptyMessage = 'No data loaded';
-            window[id].styles.atoms_useJMOLColors = true;
-            window[id].styles.bonds_clearOverlaps_2D = true;
+            let sketcher = document.querySelector('#'+id);
+            sketcher = new ChemDoodle.ViewerCanvas(id, 250, 125);
+            sketcher.emptyMessage = 'No data loaded';
+            sketcher.styles.atoms_useJMOLColors = true;
+            sketcher.styles.bonds_clearOverlaps_2D = true;
 
             // Locate the area of the answer.
             let parent = $(sketcherlist[i].parentNode.parentNode.parentNode);
@@ -197,11 +190,11 @@ M.qtype_reacsimilarity={
             if (box.val()) {
                 let val = JSON.parse(box.val());
                 let data = ChemDoodle.readJSON(val.json);
-                window[id].clear();
-                window[id].doChecks = true;
-                window[id].loadContent(data['molecules'], data['shapes']);
+                sketcher.clear();
+                sketcher.doChecks = true;
+                sketcher.loadContent(data['molecules'], data['shapes']);
             } else {
-                window[id].clear();
+                sketcher.clear();
             }
             let boxval = box.val();
 
@@ -210,70 +203,71 @@ M.qtype_reacsimilarity={
                     if (boxval !== box.val() ) {
                         boxval = box.val();
                         if (boxval === "") {
-                            window[id].clear();
+                            sketcher.clear();
                         } else {
                             let val = JSON.parse(box.val());
                             let data = ChemDoodle.readJSON(val.json);
-                            window[id].clear();
-                            window[id].doChecks = true;
-                            window[id].loadContent(data['molecules'], data['shapes']);
-                            window[id].repaint();
+                            sketcher.clear();
+                            sketcher.doChecks = true;
+                            sketcher.loadContent(data['molecules'], data['shapes']);
+                            sketcher.repaint();
                         }
                     }
             }, 5000)
         }
     },
     insert_good_answer : function (Y, toreplaceid, name, correct_data) {
-        window[name] = new ChemDoodle.ViewerCanvas(toreplaceid, 400, 300);
+        let sketcher = document.querySelector('#'+name);
+        sketcher = new ChemDoodle.ViewerCanvas(toreplaceid, 400, 300);
 
-        window[name].emptyMessage = 'No data loaded';
-        window[name].styles.atoms_useJMOLColors = true;
-        window[name].styles.bonds_clearOverlaps_2D = true;
+        sketcher.emptyMessage = 'No data loaded';
+        sketcher.styles.atoms_useJMOLColors = true;
+        sketcher.styles.bonds_clearOverlaps_2D = true;
 
         let correct_mol = correct_data;
 
         if (correct_mol.length > 0) {
             let cmcmol = ChemDoodle.readJSON(correct_mol);
-            window[name].doChecks = true;
-            window[name].loadContent(cmcmol['molecules'], cmcmol['shapes']);
+            sketcher.doChecks = true;
+            sketcher.loadContent(cmcmol['molecules'], cmcmol['shapes']);
         }
         },
     insert_scaffold : function (Y, dirroot) {
         let nameS = "sketcherScaffold";
         let dirr = JSON.parse(dirroot).dirrMoodle;
+        let sketcherS = document.querySelector('#'+nameS);
+        sketcherS = new ChemDoodle.SketcherCanvas(nameS, 550, 300, {useServices:false, oneMolecule:false});
 
-        window[nameS] = new ChemDoodle.SketcherCanvas(nameS, 550, 300, {useServices:false, oneMolecule:false});
-
-        window[nameS].emptyMessage = 'No data loaded';
-        window[nameS].styles.atoms_useJMOLColors = true;
-        window[nameS].styles.bonds_clearOverlaps_2D = true;
-        window[nameS].repaint();
+        sketcherS.emptyMessage = 'No data loaded';
+        sketcherS.styles.atoms_useJMOLColors = true;
+        sketcherS.styles.bonds_clearOverlaps_2D = true;
+        sketcherS.repaint();
 
         let scaffoldarea = $("input[name=scaffold]");
         let scaffoldData = scaffoldarea.val();
 
         if (scaffoldData.length > 0) {
-            window[nameS].doChecks = true;
+            sketcherS.doChecks = true;
             let cmcmol = JSON.parse(scaffoldData);
             let data = ChemDoodle.readJSON(cmcmol.json);
 
             if (data.shapes.length !== 0) {
-                window[nameS].loadContent(data['molecules'], data['shapes']);
+                sketcherS.loadContent(data['molecules'], data['shapes']);
             } else {
-                window[nameS].loadMolecule(data['molecules'][0]);
+                sketcherS.loadMolecule(data['molecules'][0]);
             }
         }
 
         const moodleform = $("form[data-qtype=reacsimilarity]");
         moodleform[0].addEventListener("submit", function (event) {
-            var json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(window[nameS].molecules));
+            var json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcherS.molecules));
             // We check if there is an answer, if not, we send an empty json, which can be loaded into the canvas.
             if (json_data !== '{}') {
-                if (window[nameS].shapes.length !== 0) {
-                    var json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(window[nameS].molecules, window[nameS].shapes));
-                    var molscaf = ChemDoodle.writeRXN(window[nameS].getMolecules(), window[nameS].shapes);
+                if (sketcherS.shapes.length !== 0) {
+                    var json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcherS.molecules, sketcherS.shapes));
+                    var molscaf = ChemDoodle.writeRXN(sketcherS.getMolecules(), sketcherS.shapes);
                 } else {
-                    var molscaf = ChemDoodle.writeMOL(window[nameS].getMolecule());
+                    var molscaf = ChemDoodle.writeMOL(sketcherS.getMolecule());
                 }
                 if (molscaf !== 'Molecule from ChemDoodle Web Components\n\nhttp://www.ichemlabs.com\n  1  0  0  0  0  0            999 V2000\n    0.0000    0.0000    0.0000 C   0  0  0  0  0  0\nM  END') {
                     generateOutputChemDoodle(molscaf, json_data, scaffoldarea);
