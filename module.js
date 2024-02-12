@@ -84,7 +84,7 @@ M.qtype_reacsimilarity={
             window[name].loadContent(cmcmol['molecules'], cmcmol['shapes']);
             window[name].repaint();
         }
-        else if (scaffold !== '') {
+        else if (scaffold !== '' && scaffold) {
             window[name].doChecks = true;
             let cmcmol = JSON.parse(scaffold);
             let data = ChemDoodle.readJSON(cmcmol.json);
