@@ -47,8 +47,9 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
         $PAGE->requires->css("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/jquery-ui-1.11.4.css");
         $PAGE->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb-min.js", true);
         $PAGE->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/ChemDoodleWeb-uis-min.js",
-                true);
-        $PAGE->requires->js("/question/type/reacsimilarity/utils.js");
+	 true);
+        $PAGE->requires->js("/question/type/reacsimilarity/javascript/jquery-1.11.3.min.js", true);
+	$PAGE->requires->js("/question/type/reacsimilarity/utils.js");
 
         $menustereo = array(
                 get_string('caseno', 'qtype_reacsimilarity'),
