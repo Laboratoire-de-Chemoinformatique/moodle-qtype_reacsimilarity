@@ -54,6 +54,7 @@ M.qtype_reacsimilarity={
             let meth = ChemDoodle.readJSON("{\"m\":[{\"a\":[{\"x\":236.75,\"y\":134,\"i\":\"a0\"}]}]}");
 
             window[name].loadMolecule(initmol['molecules'][0]);
+/*
             window[name].click = initcanvas;
 
             function initcanvas(){
@@ -61,7 +62,7 @@ M.qtype_reacsimilarity={
                 if (json_data === '{\"m\":[{\"a\":[]}]}') {
                     window[name].loadMolecule(meth['molecules'][0]);
                 }
-            }
+            }*/
 
             const moodleform = document.getElementById("responseform");
             moodleform.addEventListener("submit", function (event) {
@@ -84,7 +85,7 @@ M.qtype_reacsimilarity={
             window[name].loadContent(cmcmol['molecules'], cmcmol['shapes']);
             window[name].repaint();
         }
-        else if (scaffold !== '') {
+        else if (scaffold !== '' && scaffold) {
             window[name].doChecks = true;
             let cmcmol = JSON.parse(scaffold);
             let data = ChemDoodle.readJSON(cmcmol.json);
