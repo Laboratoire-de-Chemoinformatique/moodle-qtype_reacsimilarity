@@ -93,9 +93,7 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
                     $question->get_validation_error(array('answer' => $currentanswer)),
                     array('class' => 'validationerror'));
         }
-
-        $scaffold = $question->scaffold;
-        $this->require_js($toreplaceid, $options->readonly, $options->correctness, $inputname, $scaffold);
+        $this->require_js($toreplaceid, $options->readonly, $options->correctness, $inputname, $question->id);
 
         return $result;
     }
@@ -112,36 +110,33 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
         ("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb.css");
         $this->page->requires->css
         ("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/jquery-ui-1.11.4.css");
-        $this->page->requires->js_call_amd("qtype_reacsimilarity/api_helper");
+        //$this->page->requires->js_call_amd("qtype_reacsimilarity/api_helper");
         $this->page->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb-min.js",
                 true);
         $this->page->requires->js
         ("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/ChemDoodleWeb-uis-min.js", true);
+        $this->page->requires->js_init_code('window.ChemDoodleVar = ChemDoodle;');
         parent::head_code($qa);
     }
 
-    protected function require_js($toreplaceid, $readonly, $correctness, $inputname, $scaffold) {
-        global $CFG;
-
-        $jsmodule = array(
-                'name'     => 'qtype_reacsimilarity',
-                'fullpath' => '/question/type/reacsimilarity/module.js',
-                'requires' => array(),
-                'strings' => array(),
-        );
-
+    protected function require_js($toreplaceid, $readonly, $correctness, $inputname, $questionid) {
         $name = $toreplaceid . '_editor';
-        $directory = json_encode(array("dirrMoodle" => $CFG->wwwroot), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-
-        $this->page->requires->js_init_call('M.qtype_reacsimilarity.insert_cwc',
-                array($toreplaceid,
+        $this->page->requires->js_call_amd(
+            'qtype_reacsimilarity/chemdoodle_canvas',
+                'insert_cwc',
+                    array(
+                        $toreplaceid,
                         $name,
                         str_replace(':', '_', $inputname),
                         $readonly,
-                        $directory,
-                        $scaffold),
-                true,
-                $jsmodule);
+                        $questionid),
+                );
+        $this->page->requires->js_init_code(
+            '
+                if(document.querySelector(".ChemDoodleWebComponent").length){
+                    document.querySelector("#techinfo_inner :nth-child(6n)").css("white-space","pre"); // For the preview.
+                }'
+            , true);
     }
 
     protected function hidden_fields(question_attempt $qa): string {
@@ -188,32 +183,16 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
         $question = $qa->get_question();
         $inputname = $qa->get_qt_field_name('answer');
         $toreplaceid = strtr($inputname, ":", "_") . "_cwc_correct_answer";
-        $answer = $question->get_correct_answer();
-        if (!$answer) {
-            return '';
-        }
-        $correctdata = json_decode($answer->answer ?? '')->{"json"};
-        $this->require_js_correct($toreplaceid, $correctdata);
+        $this->require_js_correct($toreplaceid, $question->id);
         return get_string('correctansweris', 'qtype_reacsimilarity') . html_writer::tag('canvas', "", array('id' => $toreplaceid));
     }
 
-    protected function require_js_correct($toreplaceid, $correctdata) {
-        global $CFG;
-
-        $jsmodule = array(
-                'name'     => 'qtype_reacsimilarity',
-                'fullpath' => '/question/type/reacsimilarity/module.js',
-                'requires' => array(),
-                'strings' => array(),
-        );
-
+    protected function require_js_correct($toreplaceid, $questionid) {
         $name = $toreplaceid . '_editor';
-
-        $this->page->requires->js_init_call('M.qtype_reacsimilarity.insert_good_answer',
+        $this->page->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas','insert_good_answer',
                 array($toreplaceid,
                         $name,
-                        $correctdata),
-                true,
-                $jsmodule);
+                        $questionid)
+        );
     }
 }

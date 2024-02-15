@@ -48,8 +48,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
         $PAGE->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb-min.js", true);
         $PAGE->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/ChemDoodleWeb-uis-min.js",
                 true);
-
-        $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
+        $PAGE->requires->js_init_code('window.ChemDoodleVar = ChemDoodle;');
 
         $menustereo = array(
                 get_string('caseno', 'qtype_reacsimilarity'),
@@ -93,7 +92,6 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
         $mform->addElement('hidden', 'scaffold');
         $mform->setType('scaffold', PARAM_RAW);
         $mform->addElement('html', html_writer::empty_tag('br'));
-
         $this->require_js_scaffold();
 
         $mform->addElement('static', 'answersinstruct',
@@ -116,51 +114,27 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
     }
 
     protected function require_js() {
-        global $PAGE, $CFG;
+        global $PAGE;
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas','insert_form');
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
-        $jsmodule = array(
-                'name'     => 'qtype_reacsimilarity',
-                'fullpath' => '/question/type/reacsimilarity/module.js',
-                'requires' => array(),
-                'strings' => array(),
-        );
-        $directory = json_encode(array("dirrMoodle" => $CFG->wwwroot), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        $PAGE->requires->js_init_call('M.qtype_reacsimilarity.insert_form',
-                array($directory),
-                true,
-                $jsmodule);
+        $PAGE->requires->js_init_code(
+            'document.querySelector("[classo=load-molfile]").click();
+            document.querySelector(\'[id^="fitem_id_feedback_"]:not(:first)\').css("display','none"");
+            ', true);
     }
 
     protected function require_js_preview() {
-        global $PAGE, $CFG;
-        $jsmodule = array(
-                'name'     => 'qtype_reacsimilarity',
-                'fullpath' => '/question/type/reacsimilarity/module.js',
-                'requires' => array(),
-                'strings' => array(),
-        );
-        $PAGE->requires->js_init_call('M.qtype_reacsimilarity.insert_form_preview',
-                null,
-                true,
-                $jsmodule);
+        global $PAGE;
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas','insert_form_preview');
     }
 
     protected function require_js_scaffold() {
         global $PAGE, $CFG;
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
-        $jsmodule = array(
-                'name'     => 'qtype_reacsimilarity',
-                'fullpath' => '/question/type/reacsimilarity/module.js',
-                'requires' => array(),
-                'strings' => array(),
-        );
-        $directory = json_encode(array("dirrMoodle" => $CFG->wwwroot), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        $PAGE->requires->js_init_call('M.qtype_reacsimilarity.insert_scaffold',
-                array($directory),
-                true,
-                $jsmodule);
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas', 'insert_scaffold');
     }
+
 
     protected function get_per_answer_fields($mform, $label, $gradeoptions, &$repeatedoptions, &$answersoption): array {
         global $CFG;

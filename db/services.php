@@ -37,4 +37,22 @@ $functions = array(
                 'ajax' => true,
                 'loginrequired' => true,
         ),
+        'qtype_reacsimilarity_retrieve_scaffold' => array(
+            'classname'   => 'qtype_reacsimilarity_external',
+            'methodname'  => 'retrieve_scaffold',
+            'classpath'   => 'question/type/reacsimilarity/externallib.php',
+            'description' => 'Retrieve scaffold',
+            'type'        => 'read',
+            'ajax' => true,
+            'loginrequired' => true,
+        ),
+        'qtype_reacsimilarity_retrieve_correctdatas' => array(
+            'classname'   => 'qtype_reacsimilarity_external',
+            'methodname'  => 'retrieve_correctdatas',
+            'classpath'   => 'question/type/reacsimilarity/externallib.php',
+            'description' => 'Retrieve scaffold',
+            'type'        => 'read',
+            'ajax' => true,
+            'loginrequired' => true,
+        ),
 );

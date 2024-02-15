@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once("$CFG->libdir/externallib.php");
+require_once("$CFG->dirroot/question/engine/bank.php");
 
 class qtype_reacsimilarity_external extends external_api {
     public static function modify_rxnfile_parameters() {
@@ -41,26 +42,131 @@ class qtype_reacsimilarity_external extends external_api {
                 )
         );
     }
-    // From 2nd comment https://www.php.net/manual/fr/function.array-column.php .
-    private static function reacsimilarity_array_column_ext($array, $columnkey, $indexkey = null): array {
-        $result = array();
-        foreach ($array as $subarray => $value) {
-            if (array_key_exists($columnkey, $value)) {
-                $val = $array[$subarray][$columnkey];
-            } else if ($columnkey === null) {
-                $val = $value;
-            } else {
-                continue;
-            }
 
-            if ($indexkey === null) {
-                $result[] = $val;
-            } else if ($indexkey == -1 || array_key_exists($indexkey, $value)) {
-                $result[($indexkey == -1) ? $subarray : $array[$subarray][$indexkey]] = $val;
+
+    public static function modify_rxnfile($molfile, $jsondata, $sesskey) {
+        self::validate_parameters(self::modify_rxnfile_parameters(),
+                    array('molfile' => $molfile, 'json_data' => $jsondata, 'sesskey' => $sesskey));
+
+        // We look for the number of lone pairs and radicals in the initial json.
+        $lines = explode("\n", $molfile);
+        $decoded = json_decode($jsondata ?? '', true);
+
+        // Redefine str_contains for php 7.4
+        if (!function_exists('str_contains')) {
+            function str_contains($haystack, $needle) {
+                return $needle !== '' && mb_strpos($haystack, $needle) !== false;
             }
         }
-        return $result;
+        if (str_contains($lines[0], '$RXN')) {
+            // If reaction, then we look for the number of molecules in it.
+            $headerrxn = array_slice($lines, 0, 5);
+            $countlinereac = $lines[4];
+            preg_match_all('!\d+!', $countlinereac, $anumbermol);
+            $numbermols = $anumbermol[0][0] + $anumbermol[0][1];
+
+            // Modify each molecule to add Lone pairs and radicals.
+            $endrxn = '';
+            $j = 5;
+            for ($i = 0; $i < $numbermols; $i++) {
+                $countline = $lines[$j + 4];
+                preg_match_all('!\d+!', $countline, $numbers);
+                $molarray = array();
+                $l = 0;
+
+                while (!(str_contains($lines[$j], 'M  END'))) {
+                    if ($l == 0) {
+                        $l++;
+                    } else {
+                        $j++;
+                    }
+                    $molarray[] = $lines[$j];
+                }
+                $endrxn .= self::reacsimilarity_modify_molfile($molarray, $decoded, $i);
+                $endrxn .= "\n";
+                $j++;
+            }
+            $finalrxn = '';
+            $finalrxn .= implode("\n", $headerrxn);
+            $finalrxn .= "\n";
+            $finalrxn .= $endrxn;
+        } else {
+            $finalrxn = self::reacsimilarity_modify_molfile($lines, $decoded, 0);
+        }
+        // A json is sent back including the json and the new molfile.
+        return ['json' => $jsondata, 'mol_file' => $finalrxn];
+
     }
+    public static function modify_rxnfile_returns() {
+        return new external_single_structure(
+                array(
+                        'json'   => new external_value(PARAM_RAW, 'Backup Status'),
+                        'mol_file' => new external_value(PARAM_RAW, 'Backup progress'),
+                ), 'Backup completion status'
+        );
+    }
+
+    public static function retrieve_scaffold_parameters() {
+        return new external_function_parameters(
+            array(
+                'questionid' => new external_value(PARAM_INT, 'questionid', VALUE_REQUIRED),
+            )
+        );
+    }
+
+
+    public static function retrieve_scaffold($questionid) {
+        self::validate_parameters(self::retrieve_scaffold_parameters(),
+            array('questionid' => $questionid));
+        $question = question_bank::load_question($questionid);
+        if(!$question) {
+            throw new moodle_exception("question with id $questionid does not exist");
+        }
+
+        return ['scaffold' => $question->scaffold];
+
+    }
+    public static function retrieve_scaffold_returns() {
+        return new external_single_structure(
+            array(
+                'scaffold'   => new external_value(PARAM_RAW, 'question scaffold'),
+            ), 'scaffold'
+        );
+    }
+
+    public static function retrieve_correctdatas_parameters() {
+        return new external_function_parameters(
+            array(
+                'questionid' => new external_value(PARAM_INT, 'questionid', VALUE_REQUIRED),
+            )
+        );
+    }
+
+
+    public static function retrieve_correctdatas($questionid) {
+        self::validate_parameters(self::retrieve_correctdatas_parameters(),
+            array('questionid' => $questionid));
+        $question = question_bank::load_question($questionid);
+        if(!$question) {
+            throw new moodle_exception("question with id $questionid does not exist");
+        }
+        $answer = $question->get_correct_answer();
+        if (!$answer) {
+            return '';
+        }
+        $correctdata = json_decode($answer->answer ?? '')->{"json"};
+
+        return ['correctDatas' => $correctdata];
+
+    }
+    public static function retrieve_correctdatas_returns() {
+        return new external_single_structure(
+            array(
+                'correctDatas'   => new external_value(PARAM_RAW, 'question correctDatas'),
+            ), 'correctDatas'
+        );
+    }
+
     private static function reacsimilarity_modify_molfile($amolfile, $decoded, $molid) {
 
         // We look for the number of lone pairs and radicals in the initial json.
@@ -144,73 +250,31 @@ class qtype_reacsimilarity_external extends external_api {
             $finalmol = array();
             if ($radicals) {
                 $finalmol = implode("\n", array_merge($finalmol, $header, $countlinearray,
-                        $atomblock, $bondblock, $radlinearray, $endfile));
+                    $atomblock, $bondblock, $radlinearray, $endfile));
             } else {
                 $finalmol = implode("\n", array_merge($finalmol, $header, $countlinearray, $atomblock, $bondblock, $endfile));
             }
         }
         return $finalmol;
     }
+    // From 2nd comment https://www.php.net/manual/fr/function.array-column.php .
+    private static function reacsimilarity_array_column_ext($array, $columnkey, $indexkey = null): array {
+        $result = array();
+        foreach ($array as $subarray => $value) {
+            if (array_key_exists($columnkey, $value)) {
+                $val = $array[$subarray][$columnkey];
+            } else if ($columnkey === null) {
+                $val = $value;
+            } else {
+                continue;
+            }
 
-    public static function modify_rxnfile($molfile, $jsondata, $sesskey) {
-        self::validate_parameters(self::modify_rxnfile_parameters(),
-                    array('molfile' => $molfile, 'json_data' => $jsondata, 'sesskey' => $sesskey));
-
-        // We look for the number of lone pairs and radicals in the initial json.
-        $lines = explode("\n", $molfile);
-        $decoded = json_decode($jsondata ?? '', true);
-
-        // Redefine str_contains for php 7.4
-        if (!function_exists('str_contains')) {
-            function str_contains($haystack, $needle) {
-                return $needle !== '' && mb_strpos($haystack, $needle) !== false;
+            if ($indexkey === null) {
+                $result[] = $val;
+            } else if ($indexkey == -1 || array_key_exists($indexkey, $value)) {
+                $result[($indexkey == -1) ? $subarray : $array[$subarray][$indexkey]] = $val;
             }
         }
-        if (str_contains($lines[0], '$RXN')) {
-            // If reaction, then we look for the number of molecules in it.
-            $headerrxn = array_slice($lines, 0, 5);
-            $countlinereac = $lines[4];
-            preg_match_all('!\d+!', $countlinereac, $anumbermol);
-            $numbermols = $anumbermol[0][0] + $anumbermol[0][1];
-
-            // Modify each molecule to add Lone pairs and radicals.
-            $endrxn = '';
-            $j = 5;
-            for ($i = 0; $i < $numbermols; $i++) {
-                $countline = $lines[$j + 4];
-                preg_match_all('!\d+!', $countline, $numbers);
-                $molarray = array();
-                $l = 0;
-
-                while (!(str_contains($lines[$j], 'M  END'))) {
-                    if ($l == 0) {
-                        $l++;
-                    } else {
-                        $j++;
-                    }
-                    $molarray[] = $lines[$j];
-                }
-                $endrxn .= self::reacsimilarity_modify_molfile($molarray, $decoded, $i);
-                $endrxn .= "\n";
-                $j++;
-            }
-            $finalrxn = '';
-            $finalrxn .= implode("\n", $headerrxn);
-            $finalrxn .= "\n";
-            $finalrxn .= $endrxn;
-        } else {
-            $finalrxn = self::reacsimilarity_modify_molfile($lines, $decoded, 0);
-        }
-        // A json is sent back including the json and the new molfile.
-        return ['json' => $jsondata, 'mol_file' => $finalrxn];
-
-    }
-    public static function modify_rxnfile_returns() {
-        return new external_single_structure(
-                array(
-                        'json'   => new external_value(PARAM_RAW, 'Backup Status'),
-                        'mol_file' => new external_value(PARAM_RAW, 'Backup progress'),
-                ), 'Backup completion status'
-        );
+        return $result;
     }
 }

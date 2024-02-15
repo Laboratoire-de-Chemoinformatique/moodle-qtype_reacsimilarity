@@ -26,20 +26,49 @@
 import Ajax from 'core/ajax';
 import notification from "core/notification";
 
-export const callApi = async (molfile, json_data) => {
-  const request = await new Promise( resolve => {
-    return Ajax.call([{
+export const generateOutputChemDoodle = (molfile, json_data, component) => {
+    Ajax.call([{
       methodname: 'qtype_reacsimilarity_modify_rxnfile',
       args: {
         molfile: molfile,
         json_data: json_data,
-        sesskey: M.cfg.sesskey
+        sesskey: M.cfg.sesskey,
       },
-      done : result =>  {
-        resolve(result);
+      done : response =>  {
+        window.console.log(JSON.stringify(response.json));
+        window.console.log(response.molfile);
+        component.value = JSON.stringify(response);
       },
       fail: notification.exception
-    }]);
-  });
-  return request;
+    }], false);
+};
+
+export const retrieveScafold = (questionid) => {
+  let scaffold='';
+  Ajax.call([{
+    methodname: 'qtype_reacsimilarity_retrieve_scaffold',
+    args: {
+      questionid: questionid,
+    },
+    done : response =>  {
+      scaffold = response.scaffold;
+    },
+    fail: notification.exception
+  }], false);
+  return scaffold;
+};
+
+export const retrieveCorrectDatas = (questionid) => {
+  let correctDatas='';
+  Ajax.call([{
+    methodname: 'qtype_reacsimilarity_retrieve_correctdatas',
+    args: {
+      questionid: questionid,
+    },
+    done : response =>  {
+      correctDatas = response.correctDatas;
+    },
+    fail: notification.exception
+  }], false);
+  return correctDatas;
 };
