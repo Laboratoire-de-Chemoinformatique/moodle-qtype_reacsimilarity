@@ -109,8 +109,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
         $answernumber = get_string('answernumber', 'qtype_reacsimilarity', '{no}');
 
         $this->add_per_answer_fields($mform, $answernumber, array('1.0' => '100%', '0.0' =>
-                get_string('clearanswer', 'qtype_reacsimilarity')), $minoptions = 1,
-                $addoptions = 1); // Grade only needed to be 1, in order to be sure to get the right specific feedback.
+                get_string('clearanswer', 'qtype_reacsimilarity')), 1, 1); // Grade only needed to be 1, in order to be sure to get the right specific feedback.
     }
 
     protected function require_js() {
@@ -119,7 +118,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
         $PAGE->requires->js_init_code(
             'document.querySelector("[classo=load-molfile]").click();
-            document.querySelector(\'[id^="fitem_id_feedback_"]:not(:first)\').css("display','none"");
+            document.querySelector(\'[id^="fitem_id_feedback_"]:not(:first-child)\').style.display="none";
             ', true);
     }
 
