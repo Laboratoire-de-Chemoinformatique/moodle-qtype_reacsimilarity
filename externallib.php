@@ -119,7 +119,7 @@ class qtype_reacsimilarity_external extends external_api {
         self::validate_parameters(self::retrieve_scaffold_parameters(),
             array('questionid' => $questionid));
         $question = question_bank::load_question($questionid);
-        if(!$question) {
+        if (!$question) {
             throw new moodle_exception("question with id $questionid does not exist");
         }
 
@@ -147,7 +147,7 @@ class qtype_reacsimilarity_external extends external_api {
         self::validate_parameters(self::retrieve_correctdatas_parameters(),
             array('questionid' => $questionid));
         $question = question_bank::load_question($questionid);
-        if(!$question) {
+        if (!$question) {
             throw new moodle_exception("question with id $questionid does not exist");
         }
         $answer = $question->get_correct_answer();

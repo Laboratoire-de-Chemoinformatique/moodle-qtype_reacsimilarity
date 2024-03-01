@@ -114,7 +114,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
 
     protected function require_js() {
         global $PAGE;
-        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas','insert_form');
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas', 'insert_form');
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
         $PAGE->requires->js_init_code(
             'document.querySelector("[classo=load-molfile]").click();
@@ -125,7 +125,7 @@ class qtype_reacsimilarity_edit_form extends qtype_shortanswer_edit_form {
     protected function require_js_preview() {
         global $PAGE;
         $PAGE->requires->js_call_amd('qtype_reacsimilarity/api_helper');
-        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas','insert_form_preview');
+        $PAGE->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas', 'insert_form_preview');
     }
 
     protected function require_js_scaffold() {

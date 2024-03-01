@@ -110,7 +110,6 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
         ("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb.css");
         $this->page->requires->css
         ("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/uis/jquery-ui-1.11.4.css");
-        //$this->page->requires->js_call_amd("qtype_reacsimilarity/api_helper");
         $this->page->requires->js("/question/type/reacsimilarity/chemdoodle/ChemDoodleWeb-9.4.0/install/ChemDoodleWeb-min.js",
                 true);
         $this->page->requires->js
@@ -189,7 +188,7 @@ class qtype_reacsimilarity_renderer extends qtype_renderer {
 
     protected function require_js_correct($toreplaceid, $questionid) {
         $name = $toreplaceid . '_editor';
-        $this->page->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas','insert_good_answer',
+        $this->page->requires->js_call_amd('qtype_reacsimilarity/chemdoodle_canvas', 'insert_good_answer',
                 array($toreplaceid,
                         $name,
                         $questionid)
