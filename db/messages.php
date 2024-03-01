@@ -30,14 +30,14 @@ $messageproviders = array(
     // Notify that the reacsimilarity correction server is down.
         'reacsimilarity_down' => array(
                 'defaults' => array(
-                        'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
-                        'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF
-                )
+                        'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+                        'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+                ),
         ),
         'reacsimilarity_security' => array(
                 'defaults' => array(
-                        'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
-                        'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF
-                )
+                        'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+                        'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+                ),
         ),
 );
