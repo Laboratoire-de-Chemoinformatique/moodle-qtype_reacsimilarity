@@ -89,8 +89,6 @@ export const insert_form  = () => {
     if (sketcher.shapes.length !== 0) {
       let molfile = ChemDoodle.writeRXN(sketcher.getMolecules(), sketcher.shapes);
       let json_data = JSON.stringify(new ChemDoodle.io.JSONInterpreter().contentTo(sketcher.molecules, sketcher.shapes));
-      window.console.log(json_data);
-      window.console.log(ChemDoodle.readJSON(json_data));
       let box = get_source(parent);
       generateOutputChemDoodle(molfile, json_data, box);
       if (box.value.length >= 1) {

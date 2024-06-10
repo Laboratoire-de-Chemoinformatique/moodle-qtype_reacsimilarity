@@ -35,8 +35,6 @@ export const generateOutputChemDoodle = (molfile, json_data, component) => {
         sesskey: M.cfg.sesskey,
       },
       done : response =>  {
-        window.console.log(JSON.stringify(response.json));
-        window.console.log(response.molfile);
         component.value = JSON.stringify(response);
       },
       fail: notification.exception

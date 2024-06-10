@@ -18524,7 +18524,11 @@ ChemDoodle.uis.gui.imageDepot = (function (ext, undefined) {
 ChemDoodle.uis.gui.templateDepot = (function(JSON, localStorage, undefined) {
 	'use strict';
 	let d = [];
-	
+
+
+    // Unistra dev
+    let group = {};
+    /*
 	let group = {name:'Amino Acids', templates:[]};
 	group.templates.push({
 		name: 'Alanine <b>Ala</b> <i>A</i>',
@@ -19516,7 +19520,7 @@ ChemDoodle.uis.gui.templateDepot = (function(JSON, localStorage, undefined) {
 		data: {"a":[{"x":-155.8846,"y":40},{"x":-155.8846,"y":20},{"x":-138.5641,"y":10},{"x":-173.2051,"y":10},{"x":-121.2436,"y":20},{"x":-103.9231,"y":10},{"x":-86.6025,"y":20},{"x":-86.6025,"y":40},{"x":-69.2821,"y":10},{"x":-51.9615,"y":20},{"x":-34.641,"y":10},{"x":-17.3205,"y":20},{"x":0,"y":10},{"x":-17.3205,"y":40},{"x":17.3205,"y":20},{"x":34.641,"y":10},{"x":51.9615,"y":20},{"x":69.2821,"y":10},{"x":51.9615,"y":40},{"x":86.6026,"y":20},{"x":103.9231,"y":10},{"x":121.2437,"y":20},{"x":103.9231,"y":-10},{"x":138.5641,"y":10},{"x":121.2437,"y":40,"l":"O"},{"x":121.2437,"y":-20},{"x":86.6026,"y":-20},{"x":155.8847,"y":20},{"x":138.5641,"y":-10},{"x":121.2437,"y":-40,"l":"O"},{"x":173.2051,"y":10},{"x":155.8847,"y":-20},{"x":173.2051,"y":-10}],"b":[{"b":0,"e":1},{"b":1,"e":3},{"b":1,"e":2},{"b":2,"e":4},{"b":4,"e":5},{"b":5,"e":6},{"b":6,"e":7},{"b":6,"e":8},{"b":8,"e":9},{"b":9,"e":10},{"b":10,"e":11},{"b":11,"e":13},{"b":11,"e":12},{"b":12,"e":14},{"b":14,"e":15},{"b":15,"e":16},{"b":16,"e":18},{"b":16,"e":17,"o":2},{"b":17,"e":19},{"b":19,"e":20},{"b":20,"e":22,"o":2},{"b":22,"e":26},{"b":22,"e":25},{"b":25,"e":29,"o":2},{"b":25,"e":28},{"b":28,"e":23,"o":2},{"b":23,"e":27},{"b":27,"e":30,"o":2},{"b":30,"e":32},{"b":32,"e":31,"o":2},{"b":28,"e":31},{"b":23,"e":21},{"b":20,"e":21},{"b":21,"e":24,"o":2}]}
 	});
 	d.push(group);
-	
+	*/
 	// this is the user's template group, don't remove this or the templates widget won't work
 	// IE/Edge doesn't allow localStorage from local files
 	let saved;
@@ -21653,7 +21657,7 @@ ChemDoodle.uis.gui.templateDepot = (function(JSON, localStorage, undefined) {
 	};
 	let _ = gui.ToolbarManager.prototype;
 	_.write = function() {
-		let sb = ['<div style="font-size:10px;">'];
+		let sb = ['<div style="font-size:10px;text-align: center !important;">'];
 		let bg = this.sketcher.id + '_main_group';
 		if (this.sketcher.oneMolecule) {
 			sb.push(this.buttonMove.getSource(bg));

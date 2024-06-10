@@ -1,6 +1,21 @@
 --- ChemDoodleWeb-9.4.0/src/ChemDoodleWeb-unpacked.js	2022-01-02 14:33:42.000000000 +0100
-+++ ChemDoodleWeb-unpacked.js	2023-09-14 10:43:34.869372506 +0200
-@@ -25230,7 +25230,7 @@
++++ ChemDoodleWeb-unpacked.js	2024-06-10 14:37:16.764917601 +0200
+@@ -14834,11 +14834,12 @@
+ 
+ 	// be careful not to remove this, as this will cause corruption issues
+ 	// contact iChemLabs for instructions to remove this
+-	q(document).ready(function() {
++	// Dev Unistra
++	/*q(document).ready(function() {
+ 		if(c && c.iChemLabs && c.iChemLabs.checkForUpdates){
+ 			c.iChemLabs.checkForUpdates({});
+ 		}
+-	});
++	});*/
+ 
+ 	pack.getRGB = function(color, multiplier) {
+ 		let err = [ 0, 0, 0 ];
+@@ -25230,7 +25231,7 @@
  		
  		return molecule;
  	};
@@ -9,7 +24,7 @@
  		let sb = [];
  		sb.push('Molecule from ChemDoodle Web Components\n\nhttp://www.ichemlabs.com\n');
  		sb.push(this.fit(molecule.atoms.length.toString(), 3));
-@@ -25271,6 +25271,23 @@
+@@ -25271,6 +25272,23 @@
  						break;
  					}
  				}
@@ -33,7 +48,7 @@
  				sb.push(this.fit(((a.x - p.x) / c.DEFAULT_STYLES.bondLength_2D).toFixed(4), 10));
  				sb.push(this.fit((-(a.y - p.y) / c.DEFAULT_STYLES.bondLength_2D).toFixed(4), 10));
  				sb.push(this.fit((a.z / c.DEFAULT_STYLES.bondLength_2D).toFixed(4), 10));
-@@ -25278,7 +25295,10 @@
+@@ -25278,7 +25296,10 @@
  				sb.push(this.fit(a.label, 3, true));
  				sb.push(mass);
  				sb.push(charge);
@@ -45,7 +60,7 @@
  			}
  			for ( let i = 0, ii = molecule.bonds.length; i < ii; i++) {
  				let b = molecule.bonds[i];
-@@ -25446,8 +25466,8 @@
+@@ -25446,8 +25467,8 @@
  	c.readMOL = function(content, multiplier) {
  		return interpreter2.read(content, multiplier);
  	};
@@ -56,7 +71,7 @@
  	};
  	let interpreter3 = new io.MOLInterpreter();
  	interpreter3.version = 3;
-@@ -26791,12 +26811,12 @@
+@@ -26791,12 +26812,12 @@
  		sb.push('\n');
  		for ( let j = 0, jj = reaction.reactants.length; j < jj; j++) {
  			sb.push('$MOL\n');
@@ -71,7 +86,7 @@
  			sb.push('\n');
  		}
  		return sb.join('');
-@@ -27982,7 +28002,7 @@
+@@ -27982,7 +28003,7 @@
  
  })(ChemDoodle, ChemDoodle.monitor, ChemDoodle.structures, Math, ChemDoodle.lib.mat4);
  
@@ -80,7 +95,7 @@
  	'use strict';
  	c.ViewerCanvas = function(id, width, height) {
  		if (id) {
-@@ -27990,8 +28010,117 @@
+@@ -27990,8 +28011,117 @@
  		}
  	};
  	c.ViewerCanvas.prototype = new c._Canvas();
