@@ -24,4 +24,4 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-set_config('isidaurl', 'localhost:9090', 'qtype_reacsimilarity');
+set_config('isidaurl', 'http://localhost:9090', 'qtype_reacsimilarity');
