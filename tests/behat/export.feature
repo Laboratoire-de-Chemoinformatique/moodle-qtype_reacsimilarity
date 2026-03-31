@@ -1,4 +1,4 @@
-@qtype @qtype_reacsimilarity
+@javascript @qtype @qtype_reacsimilarity
 Feature: Test exporting Reacsimilarity questions
   As a teacher
   In order to be able to reuse my Reacsimilarity questions
@@ -24,7 +24,9 @@ Feature: Test exporting Reacsimilarity questions
     And I am on "Course 1" course homepage
 
   Scenario: Export a Reacsimilarity question
-    When I am on the "Course 1" "core_question > course question export" page
+    When I navigate to "Question bank" in current page administration
+    And I click on "System shared question bank" "link"
+    And I select "Export" from the "jump" singleselect
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
     Then following "click here" should download between "3000" and "5000" bytes

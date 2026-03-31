@@ -1,4 +1,4 @@
-@qtype @qtype_reacsimilarity
+@javascript @qtype @qtype_reacsimilarity
 Feature: Test duplicating a quiz containing a reacsimilarity question
   As a teacher
   In order re-use my courses containing reacsimilarity questions
@@ -24,13 +24,13 @@ Feature: Test duplicating a quiz containing a reacsimilarity question
     And I log in as "admin"
     And I am on "Course 1" course homepage
 
-  @javascript
   Scenario: Backup and restore a course containing a Reacsimilarity question
     When I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     And I restore "test_backup.mbz" backup into a new course using this options:
       | Schema | Course name | Course 2 |
     And I navigate to "Question bank" in current page administration
+    And I click on "System shared question bank" "link"
     And I choose "Edit question" action for "reacsimilarity-001" in the question bank
     Then the following fields match these values:
       | Question name          | reacsimilarity-001                                 |
